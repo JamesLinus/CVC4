@@ -61,18 +61,18 @@ script:
      exit 1;
    }
    makeDistcheck() {
-     make V=1 -j2 distcheck CVC4_REGRESSION_ARGS='--no-early-exit' DISTCHECK_CONFIGURE_FLAGS="CXXTEST=$HOME/cxxtest" ||
+     make V=1 -j4 distcheck CVC4_REGRESSION_ARGS='--no-early-exit' DISTCHECK_CONFIGURE_FLAGS="CXXTEST=$HOME/cxxtest" ||
        error "DISTCHECK (WITH NEWTHEORY TESTS) FAILED";
    }
    makeCheck() {
-     make V=1 -j2 check CVC4_REGRESSION_ARGS='--no-early-exit' || error "BUILD/TEST FAILED";
+     make V=1 -j4 check CVC4_REGRESSION_ARGS='--no-early-exit' || error "BUILD/TEST FAILED";
    }
    makeCheckPortfolio() {
-     make check V=1 BINARY=pcvc4 CVC4_REGRESSION_ARGS='--fallback-sequential --no-early-exit' RUN_REGRESSION_ARGS= ||
+     make V=1 -j2 check BINARY=pcvc4 CVC4_REGRESSION_ARGS='--fallback-sequential --no-early-exit' RUN_REGRESSION_ARGS= ||
        error "PORTFOLIO TEST FAILED";
    }
    makeExamples() {
-     make V=1 -j2 examples || error "COULD NOT BUILD EXAMPLES${normal}";
+     make V=1 -j4 examples || error "COULD NOT BUILD EXAMPLES${normal}";
    }
    addNewTheoryTest() {
        contrib/new-theory test_newtheory || error "NEWTHEORY FAILED";
@@ -84,9 +84,9 @@ script:
      cd proofs/lfsc_checker &&
      (./configure || (echo; cat builds/config.log; echo; echo "${red}CONFIGURE FAILED${normal}"; exit 1)) &&
      if [ -n "$TRAVIS_LFSC_DISTCHECK" ]; then
-       make -j2 distcheck || (echo; echo "${red}LFSC DISTCHECK FAILED${normal}"; echo; exit 1);
+       make -j4 distcheck || (echo; echo "${red}LFSC DISTCHECK FAILED${normal}"; echo; exit 1);
      else
-       make -j2 || (echo; echo "${red}LFSC BUILD FAILED${normal}"; echo; exit 1);
+       make -j4 || (echo; echo "${red}LFSC BUILD FAILED${normal}"; echo; exit 1);
      fi;
    }
    run() {
