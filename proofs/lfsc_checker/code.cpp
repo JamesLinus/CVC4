@@ -1003,15 +1003,16 @@ void dbg_prog_indent(std::ostream &os) {
 }
 
 Expr *run_code(Expr *_e) {
- start_run_code:
+  size_t i, j, iend, jend;
+start_run_code:
   CExpr *e = (CExpr *)_e;
-  if( e )
-  {
-    //std::cout << ". ";
-    //e->print( std::cout );
-    //std::cout << std::endl;
-    //std::cout << e->getop() << " " << e->getclass() << std::endl;
-  }
+  //if( e )
+  //{
+  //  std::cout << ". ";
+  //  e->print( std::cout );
+  //  std::cout << std::endl;
+  //  std::cout << e->getop() << " " << e->getclass() << std::endl;
+  //}
   switch (e->getop()) {
   case NOT_CEXPR:
     switch(e->getclass()) {
@@ -1261,9 +1262,9 @@ Expr *run_code(Expr *_e) {
       if (hd == p->get_head()) {
 	      vector<Expr *> vars;
 	      p->collect_args(vars);
-	      int jend = args.size();
+	      jend = args.size();
 	      vector<Expr *> old_vals(jend);
-	      for (int j = 0; j < jend; j++) {
+	      for (j = 0; j < jend; j++) {
 	        SymExpr *var = (SymExpr *)vars[j];
 	        old_vals[j] = var->val;
 	        var->val = args[j];
@@ -1271,7 +1272,7 @@ Expr *run_code(Expr *_e) {
 	      }
 	      scrut->dec();
 	      Expr *ret = run_code(c->kids[1] /* the body of the case */);
-	      for (int j = 0; j < jend; j++) {
+	      for (j = 0; j < jend; j++) {
 	        ((SymExpr *)vars[j])->val = old_vals[j];
 	        args[j]->dec();
 	      }
@@ -1291,9 +1292,9 @@ Expr *run_code(Expr *_e) {
 
     vector<Expr *> args;
     Expr *hd = e->collect_args(args);
-    for (int i = 0, iend = args.size(); i < iend; i++)
+    for (i = 0, iend = args.size(); i < iend; i++)
       if (!(args[i] = run_code(args[i]))) {
-	      for (int j = 0; j < i; j++)
+	      for (j = 0; j < i; j++)
 	         args[j]->dec();
 	      return NULL;
       }
@@ -1309,7 +1310,7 @@ Expr *run_code(Expr *_e) {
     Expr **cur = ((CExpr *)prog->kids[1])->kids;
     vector<Expr *> old_vals;
     SymExpr *var;
-    int i = 0;
+    i = 0;
 
     if( run_scc && e->get_head( false )->getclass()==SYMS_EXPR )
     {
@@ -1321,8 +1322,8 @@ Expr *run_code(Expr *_e) {
 //      }
 //#endif
       Expr *ret = run_compiled_scc( e->get_head( false ), args );
-      for (int i = 0, iend = args.size(); i < iend; i++) {
-        args[i]->dec();
+      for (j = 0, iend = args.size(); j < iend; j++) {
+        args[j]->dec();
       }
 //#ifndef USE_FLAT_APP
 //      ret = CExpr::convert_to_tree_app( ret );
@@ -1335,8 +1336,8 @@ Expr *run_code(Expr *_e) {
       while((var = (SymExpr *)*cur++)) {
         // Check whether not enough arguments were supplied
         if (i >= args.size()) {
-          for (size_t i = 0; i < args.size(); i++) {
-             args[i]->dec();
+          for (j = 0; j < args.size(); j++) {
+             args[j]->dec();
           }
           return NULL;
         }
@@ -1347,8 +1348,8 @@ Expr *run_code(Expr *_e) {
 
       // Check whether too many arguments were supplied
       if (i < args.size()) {
-        for (size_t i = 0; i < args.size(); i++) {
-           args[i]->dec();
+        for (j = 0; j < args.size(); j++) {
+           args[j]->dec();
         }
         return NULL;
       }
