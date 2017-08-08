@@ -96,7 +96,7 @@ protected:
   virtual Node getModelFromSatSolver(TNode node, bool fullModel) = 0;
 public:
   TBitblaster();
-  virtual ~TBitblaster() {}
+  virtual ~TBitblaster() noexcept(false) {} // FIXME (preiner): remove noexcept when AigBitblaster does not use Unreachable() implementation anymore
   virtual void bbAtom(TNode node) = 0;
   virtual void bbTerm(TNode node, Bits&  bits) = 0;
   virtual void makeVariable(TNode node, Bits& bits) = 0;
