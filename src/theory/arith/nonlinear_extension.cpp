@@ -1081,7 +1081,7 @@ std::vector<Node> NonlinearExtension::checkSplitZero() {
     if (d_zero_split.insert(v)) {
       Node lem = v.eqNode(d_zero);
       lem = Rewriter::rewrite(lem);
-      (void) d_containing.getValuation().ensureLiteral(lem);
+      d_containing.getValuation().ensureLiteral(lem);
       d_containing.getOutputChannel().requirePhase(lem, true);
       lem = NodeManager::currentNM()->mkNode(kind::OR, lem, lem.negate());
       lemmas.push_back(lem);
@@ -1408,7 +1408,7 @@ void NonlinearExtension::check(Theory::Effort e) {
           //split on the value, FIXME : this is non-terminating in general, improve this
           Node lem = shared_term.eqNode(stv0);
           lem = Rewriter::rewrite(lem);
-          (void) d_containing.getValuation().ensureLiteral(lem);
+          d_containing.getValuation().ensureLiteral(lem);
           d_containing.getOutputChannel().requirePhase(lem, true);
           lem = NodeManager::currentNM()->mkNode(kind::OR, lem, lem.negate());
           lemmas.push_back(lem);
