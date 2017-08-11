@@ -1281,6 +1281,16 @@ void OptionsHandler::proofEnabledBuild(std::string option, bool value) throw(Opt
 #endif /* CVC4_PROOF */
 }
 
+void OptionsHandler::LFSCEnabledBuild(std::string option, bool value) throw(OptionException) {
+#ifndef CVC4_USE_LFSC
+  if(value) {
+    std::stringstream ss;
+    ss << "option `" << option << "' requires a build of CVC4 with integrated LFSC; this binary was not built with LFSC";
+    throw OptionException(ss.str());
+  }
+#endif /* CVC4_PROOF */
+}
+
 void OptionsHandler::notifyDumpToFile(std::string option) {
   d_options->d_dumpToFileListeners.notify();
 }

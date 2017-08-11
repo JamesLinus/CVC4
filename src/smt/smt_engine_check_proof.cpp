@@ -22,8 +22,9 @@
 #include <fstream>
 #include <string>
 
-// #warning "TODO: Why is lfsc's check.h being included like this?"
-#include "check.h"
+#if IS_LFSC_BUILD
+#include <check.h>
+#endif
 
 #include "base/configuration_private.h"
 #include "base/cvc4_assert.h"
@@ -55,7 +56,7 @@ public:
 
 void SmtEngine::checkProof() {
 
-#if IS_PROOFS_BUILD
+#if (IS_LFSC_BUILD && IS_PROOFS_BUILD)
 
   Chat() << "generating proof..." << endl;
 
@@ -111,10 +112,7 @@ void SmtEngine::checkProof() {
   check_file(pfFile, a);
   close(fd);
 
-#else /* IS_PROOFS_BUILD */
-
+#else /* (IS_LFSC_BUILD && IS_PROOFS_BUILD) */
   Unreachable("This version of CVC4 was built without proof support; cannot check proofs.");
-
-#endif /* IS_PROOFS_BUILD */
-
+#endif /* (IS_LFSC_BUILD && IS_PROOFS_BUILD) */
 }
