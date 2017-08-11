@@ -55,7 +55,6 @@ public:
 }/* CVC4 namespace */
 
 void SmtEngine::checkProof() {
-
 #if (IS_LFSC_BUILD && IS_PROOFS_BUILD)
 
   Chat() << "generating proof..." << endl;
@@ -112,7 +111,7 @@ void SmtEngine::checkProof() {
   check_file(pfFile, a);
   close(fd);
 
-#else /* (IS_LFSC_BUILD && IS_PROOFS_BUILD) */
+#else  /* (IS_LFSC_BUILD && IS_PROOFS_BUILD) */
   Unreachable("This version of CVC4 was built without proof support; cannot check proofs.");
 #endif /* (IS_LFSC_BUILD && IS_PROOFS_BUILD) */
 }

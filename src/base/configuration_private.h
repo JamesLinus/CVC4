@@ -121,9 +121,9 @@ namespace CVC4 {
 #endif /* CVC4_USE_CRYPTOMINISAT */
 
 #if CVC4_USE_LFSC
-#  define IS_LFSC_BUILD true
+#define IS_LFSC_BUILD true
 #else /* CVC4_USE_LFSC */
-#  define IS_LFSC_BUILD false
+#define IS_LFSC_BUILD false
 #endif /* CVC4_USE_LFSC */
 
 #ifdef HAVE_LIBREADLINE
